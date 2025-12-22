@@ -8,6 +8,8 @@
     "LitOrExtinguishMixin"
   ],
   "client": [
+    "AbstractFurnaceScreenMixin",
+    "HandledScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
