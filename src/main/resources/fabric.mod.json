@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "mclogicfurnace",
+  "version": "${version}",
+  "name": "MCLogicFurnace",
+  "description": "~",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/mclogicfurnace/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "com.vaneck.mclogicfurnace.client.MCLogicFurnaceDataGenerator"
+    ],
+    "client": [
+      "com.vaneck.mclogicfurnace.client.MCLogicFurnaceClient"
+    ],
+    "main": [
+      "com.vaneck.mclogicfurnace.MCLogicFurnace"
+    ]
+  },
+  "mixins": [
+    "mclogicfurnace.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
