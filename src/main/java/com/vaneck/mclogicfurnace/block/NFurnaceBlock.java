@@ -4,18 +4,24 @@ import com.vaneck.mclogicfurnace.ModBlockEntities;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.*;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class NFurnaceBlock extends AbstractFurnaceBlock {
     public NFurnaceBlock(Settings settings) {
@@ -64,5 +70,13 @@ public class NFurnaceBlock extends AbstractFurnaceBlock {
 
         return ActionResult.CONSUME;
     }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        tooltip.add(Text.empty());
+        tooltip.add(Text.translatable("tooltip.mclogicfurnace.tooltip1").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("tooltip.mclogicfurnace.tooltip2").formatted(Formatting.GRAY));
+    }
+
 }
 

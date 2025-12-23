@@ -1,3 +1,8 @@
 {
-  "block.mclogicfurnace.netherrack_furnace": "Печка с бесконечным огнём"
+  "block.mclogicfurnace.netherrack_furnace": "Печка с бесконечным огнём",
+  "tooltip.mclogicfurnace.tooltip1": "ПКМ в присяди с огнивом (или лопатой) в руках",
+  "tooltip.mclogicfurnace.tooltip2": "- Механика костра",
+  "advancement.mclogicfurnace.fuelTitle": "Нужно БОЛЬШЕ ТОПЛИВА!",
+  "advancement.mclogicfurnace.fuelDesc": "Воспользуйтесь слотом для топлива в Бесконечной Печи",
+  "container.mclogicfurnace.furnace": "Бесконечная печь"
 }

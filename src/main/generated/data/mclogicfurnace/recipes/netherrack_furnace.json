@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "multi_bench",
+  "key": {
+    "c": {
+      "tag": "minecraft:stone_crafting_materials"
+    },
+    "n": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "pattern": [
+    "ccc",
+    "c c",
+    "cnc"
+  ],
+  "result": {
+    "item": "mclogicfurnace:netherrack_furnace"
+  },
+  "show_notification": true
+}

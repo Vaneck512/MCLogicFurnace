@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin({ShovelItem.class, FireChargeItem.class, FlintAndSteelItem.class})
 public class LitOrExtinguishMixin {
 
-    @Inject(at = @At("HEAD"), method = "useOnBlock")
+    @Inject(at = @At("HEAD"), method = "useOnBlock", cancellable = true)
     public void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         PlayerEntity playerEntity = context.getPlayer();
         World world = context.getWorld();
@@ -32,21 +33,26 @@ public class LitOrExtinguishMixin {
         assert playerEntity != null;
         ItemStack itemStack = playerEntity.getStackInHand(hand);
 
+        SoundEvent sound = null;
+
         if (world.getBlockEntity(blockPos) instanceof NFurnaceBlockEntity blockEntity && blockState.get(Properties.LIT) == (itemStack.getItem() instanceof ShovelItem)) {
 
             if ( itemStack.getItem() instanceof ShovelItem ) {
+                sound = SoundEvents.ITEM_SHOVEL_FLATTEN;
                 if (!blockState.get(Properties.LIT))
                     return;
             }
             else if (itemStack.getItem() instanceof FireChargeItem | itemStack.getItem() instanceof FlintAndSteelItem) {
+                sound =  SoundEvents.ITEM_FLINTANDSTEEL_USE;
                 if (blockState.get(Properties.LIT))
                     return;
             }
 
-            world.playSound(playerEntity, blockPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
+            world.playSound(playerEntity, blockPos, sound, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
             blockEntity.setActive(!blockState.get(Properties.LIT));
             world.emitGameEvent(playerEntity, GameEvent.BLOCK_CHANGE, blockPos);
             context.getStack().damage(1, playerEntity, (p) -> p.sendToolBreakStatus(context.getHand()));
+            cir.setReturnValue(ActionResult.SUCCESS);
         }
     }
 }

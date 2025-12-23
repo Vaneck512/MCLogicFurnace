@@ -3,8 +3,8 @@
   "id": "mclogicfurnace",
   "version": "${version}",
   "name": "MCLogicFurnace",
-  "description": "~",
-  "authors": [],
+  "description": "Adds a furnace that burns indefinitely using netherrack \nVaneck512 - code \nQwA SheaR - texture",
+  "authors": ["Vaneck512", "QwASheaR"],
   "contact": {},
   "license": "MIT",
   "icon": "assets/mclogicfurnace/icon.png",
@@ -27,5 +27,14 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.wiki": "https://github.com/Vaneck512/MCLogicFurnace",
+        "Mod Page": "https://modrinth.com/user/Vaneck512"
+      }
+    }
   }
+
 }
