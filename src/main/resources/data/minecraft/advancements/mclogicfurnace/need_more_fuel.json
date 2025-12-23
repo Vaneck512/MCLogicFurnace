@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "mclogicfurnace:netherrack_furnace"
+    },
+    "title": {
+      "translate": "advancement.mclogicfurnace.fuelTitle",
+      "color": "gold"
+    },
+    "description": {
+      "translate": "advancement.mclogicfurnace.fuelDesc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "mclogicfurnace:fuel": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}
