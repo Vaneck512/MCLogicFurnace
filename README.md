@@ -11,4 +11,5 @@
 # Usage:
 ### Use flint and steel or fire charge to lit furnace
 ### Use shovel to extinguish furnace
-**PRESS SHIFT**
+
+go to: <a href="https://github.com/Vaneck512/MCLogicFurnaceForge">Forge code
