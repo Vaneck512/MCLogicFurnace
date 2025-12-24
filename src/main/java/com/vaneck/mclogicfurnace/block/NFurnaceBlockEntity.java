@@ -1,19 +1,23 @@
 package com.vaneck.mclogicfurnace.block;
 
 import com.vaneck.mclogicfurnace.ModBlockEntities;
+import com.vaneck.mclogicfurnace.mixin.AbsFurnBEAccessor;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.FurnaceScreenHandler;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class NFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
 
@@ -42,6 +46,38 @@ public class NFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
         markDirty();
     }
 
+    public static void tick(World world, BlockPos pos, BlockState state, NFurnaceBlockEntity blockEntity) {
+        AbsFurnBEAccessor accessor = (AbsFurnBEAccessor) blockEntity;
+
+        if (blockEntity.isActive()) {
+            accessor.setFuelTime(512);
+        } else {
+            accessor.setFuelTime(0);
+        }
+        accessor.setBurnTime(accessor.getFuelTime());
+
+        if (!blockEntity.inventory.get(1).isEmpty()) {
+            grantAdvancement(world, pos);
+        }
+
+        AbstractFurnaceBlockEntity.tick(world, pos, state, blockEntity);
+    }
+
+    private static void grantAdvancement(World world, BlockPos blockPos) {
+        if (world.isClient()) return;
+        String advancement_ = "mclogicfurnace/need_more_fuel";
+        String criterion = "mclogicfurnace:fuel";
+        world.getPlayers().stream()
+                .filter(p -> p.getPos().isInRange(blockPos.toCenterPos(), 5))
+                .forEach(player -> {
+                    if (player instanceof ServerPlayerEntity serverPlayer)
+                        serverPlayer.getAdvancementTracker().grantCriterion(
+                                Objects.requireNonNull(Objects.requireNonNull(serverPlayer.getServer())
+                                        .getAdvancementLoader()
+                                        .get(Identifier.of("minecraft", advancement_))), criterion);
+                });
+    }
+
     @Override
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
@@ -65,7 +101,4 @@ public class NFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
         return createNbt();
     }
 
-    public DefaultedList<ItemStack> getInventory() {
-        return this.inventory;
-    }
 }

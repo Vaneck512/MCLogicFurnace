@@ -1,7 +1,7 @@
 {
   "block.mclogicfurnace.netherrack_furnace": "Infinite furnace",
   "itemGroup.main": "MC Logic Furnace",
-  "tooltip.mclogicfurnace.tooltip1": "shift + rmb with Flint and Steel or Shovel",
+  "tooltip.mclogicfurnace.tooltip1": "RMB with Flint and Steel or Shovel",
   "tooltip.mclogicfurnace.tooltip2": "- campfire mechanics",
   "advancement.mclogicfurnace.fuelTitle": "Need More Fuel!",
   "advancement.mclogicfurnace.fuelDesc": "Use fuel slot in Infinite Furnace",

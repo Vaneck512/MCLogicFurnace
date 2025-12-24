@@ -4,9 +4,7 @@
   "package": "com.vaneck.mclogicfurnace.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "AbsFurnBEAccessor",
-    "AbstractFurnaceBlockEntityMixin",
-    "LitOrExtinguishMixin"
+    "AbsFurnBEAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

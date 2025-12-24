@@ -6,11 +6,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.*;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.item.*;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -19,6 +21,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -42,33 +45,43 @@ public class NFurnaceBlock extends AbstractFurnaceBlock {
         return new NFurnaceBlockEntity(pos, state);
     }
 
+    @Override
+    public ActionResult onUse(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+
+        NFurnaceBlockEntity blockEntity = (NFurnaceBlockEntity) world.getBlockEntity(blockPos);
+        ItemStack itemStack = player.getStackInHand(hand);
+        Item item = itemStack.getItem();
+
+        boolean correctItem = (item instanceof ShovelItem || item instanceof FireChargeItem || item instanceof FlintAndSteelItem);
+        boolean shovelNLit = (item instanceof ShovelItem) != blockEntity.isActive();
+        boolean flintNLit = (item instanceof FlintAndSteelItem) == blockEntity.isActive();
+        boolean fireNLit = (item instanceof FireChargeItem) == blockEntity.isActive();
+
+        if (shovelNLit && !correctItem) return cancel(blockState, world, blockPos, player, hand, hit);
+        else if (flintNLit || fireNLit && !correctItem) return cancel(blockState, world, blockPos, player, hand, hit);
+
+        SoundEvent sound = (item instanceof FireChargeItem)
+                ? SoundEvents.ITEM_FIRECHARGE_USE : (item instanceof FlintAndSteelItem)
+                ? SoundEvents.ITEM_FLINTANDSTEEL_USE : SoundEvents.BLOCK_FIRE_EXTINGUISH;
+
+        world.playSound(player, blockPos, sound, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
+
+        blockEntity.setActive(!blockState.get(Properties.LIT));
+        world.setBlockState(blockPos, blockState.with(Properties.LIT, blockEntity.isActive()), 11);
+        world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);
+        itemStack.damage(1, player, (p) -> p.sendToolBreakStatus(hand));
+        return ActionResult.success(true);
+    }
+
+    ActionResult cancel(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        super.onUse(blockState, world, blockPos, player, hand, hit);
+        return ActionResult.SUCCESS;
+    }
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModBlockEntities.NFURNACE_BLOCK_ENTITY, AbstractFurnaceBlockEntity::tick);
-    }
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        ItemStack itemStack = player.getStackInHand(hand);
-        NFurnaceBlockEntity blockEntity = (NFurnaceBlockEntity)world.getBlockEntity(pos);
-        if  (world.isClient) {
-            return ActionResult.SUCCESS;
-        }
-
-        if (itemStack.isOf(Items.FIRE_CHARGE) || itemStack.isOf(Items.FLINT_AND_STEEL)) {
-            assert blockEntity != null;
-            if (blockEntity.isActive())
-                super.onUse(state, world, pos, player, hand, hit);
-        } else if (itemStack.isIn(ItemTags.SHOVELS)) {
-            assert blockEntity != null;
-            if (!blockEntity.isActive())
-                super.onUse(state, world, pos, player, hand, hit);
-        } else {
-            super.onUse(state, world, pos, player, hand, hit);
-        }
-
-        return ActionResult.CONSUME;
+        return checkType(type, ModBlockEntities.NFURNACE_BLOCK_ENTITY, NFurnaceBlockEntity::tick);
     }
 
     @Override
