@@ -1,4 +1,4 @@
-# Minecraft Logic Furnace Mod [RU/EN]      <a href="https://modrinth.com/project/mc-logic-furnace"><img src="https://i.imgur.com/Blygjbl.png" width="32"></a>
+# MC Logic Furnace Mod [RU/EN]      <a href="https://modrinth.com/project/mc-logic-furnace"><img src="https://i.imgur.com/Blygjbl.png" width="32"></a>
 
 <img src="https://i.imgur.com/1mWGTrV.png" width="128">
 
