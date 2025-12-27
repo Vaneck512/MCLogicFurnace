@@ -14,6 +14,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Position;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,7 +70,7 @@ public class NFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
         String advancement_ = "mclogicfurnace/need_more_fuel";
         String criterion = "mclogicfurnace:fuel";
         world.getPlayers().stream()
-                .filter(p -> p.getPos().isInRange(blockPos.toCenterPos(), 5))
+                .filter(p -> p.getPos().isInRange(new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()), 5))
                 .forEach(player -> {
                     if (player instanceof ServerPlayerEntity serverPlayer)
                         serverPlayer.getAdvancementTracker().grantCriterion(

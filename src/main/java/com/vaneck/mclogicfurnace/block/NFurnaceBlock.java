@@ -1,6 +1,7 @@
 package com.vaneck.mclogicfurnace.block;
 
 import com.vaneck.mclogicfurnace.ModBlockEntities;
+import com.vaneck.mclogicfurnace.ModBlocks;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.*;

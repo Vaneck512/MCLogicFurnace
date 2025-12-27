@@ -10,9 +10,8 @@ public class MCLogicFurnaceDataGenerator implements DataGeneratorEntrypoint {
 
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-        FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-        pack.addProvider(MCLFRecipeProvider::new);
-        pack.addProvider(MCLFBlockLootTableProvider::new);
-        pack.addProvider(MCLFBlockTagProvider::new);
+        fabricDataGenerator.addProvider(MCLFRecipeProvider::new);
+        fabricDataGenerator.addProvider(MCLFBlockLootTableProvider::new);
+        fabricDataGenerator.addProvider(MCLFBlockTagProvider::new);
     }
 }

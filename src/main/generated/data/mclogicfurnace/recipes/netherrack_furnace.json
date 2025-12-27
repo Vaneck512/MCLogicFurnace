@@ -1,7 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "group": "multi_bench",
   "key": {
     "c": {
       "tag": "minecraft:stone_crafting_materials"
@@ -17,6 +15,5 @@
   ],
   "result": {
     "item": "mclogicfurnace:netherrack_furnace"
-  },
-  "show_notification": true
+  }
 }

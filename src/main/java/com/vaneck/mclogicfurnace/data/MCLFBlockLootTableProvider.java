@@ -1,16 +1,17 @@
 package com.vaneck.mclogicfurnace.data;
 
 import com.vaneck.mclogicfurnace.ModBlocks;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 
 public class MCLFBlockLootTableProvider extends FabricBlockLootTableProvider {
-    public MCLFBlockLootTableProvider(FabricDataOutput dataOutput) {
-        super(dataOutput);
+
+    public MCLFBlockLootTableProvider(FabricDataGenerator dataGenerator) {
+        super(dataGenerator);
     }
 
     @Override
-    public void generate() {
+    public void generateBlockLootTables() {
         addDrop(ModBlocks.NFURNACE_BLOCK);
     }
 }

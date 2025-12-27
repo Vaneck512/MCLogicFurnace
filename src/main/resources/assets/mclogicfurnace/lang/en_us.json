@@ -1,6 +1,6 @@
 {
   "block.mclogicfurnace.netherrack_furnace": "Infinite furnace",
-  "itemGroup.main": "MC Logic Furnace",
+  "itemGroup.mclogicfurnace.def_item_group": "MC Logic Furnace",
   "tooltip.mclogicfurnace.tooltip1": "RMB with Flint and Steel or Shovel",
   "tooltip.mclogicfurnace.tooltip2": "- campfire mechanics",
   "advancement.mclogicfurnace.fuelTitle": "Need More Fuel!",
